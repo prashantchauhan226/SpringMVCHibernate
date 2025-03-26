@@ -14,12 +14,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.journaldev.spring.model.Person;
 
-@ExtendWith(SpringExtension.class)
+@ExtendWith(MockitoExtension.class)
 public class PersonDAOImplTest {
 
     @Mock
@@ -35,11 +34,10 @@ public class PersonDAOImplTest {
 
     @BeforeEach
     public void setUp() {
-        // Initialize mocks using MockitoAnnotations or @ExtendWith(MockitoExtension.class)
-        MockitoAnnotations.openMocks(this);
+        // Initialize the DAO and inject the mocked sessionFactory.
         personDAO = new PersonDAOImpl();
         personDAO.setSessionFactory(sessionFactory);
-        // When getCurrentSession() is called, return the mocked session
+        // When getCurrentSession() is called, return the mocked session.
         when(sessionFactory.getCurrentSession()).thenReturn(session);
     }
 
@@ -47,7 +45,7 @@ public class PersonDAOImplTest {
     public void testAddPerson() {
         Person p = new Person();
         personDAO.addPerson(p);
-        // Verify that the session.persist method was called once
+        // Verify that the session.persist method was invoked with the provided Person.
         verify(session, times(1)).persist(p);
     }
 
@@ -55,58 +53,55 @@ public class PersonDAOImplTest {
     public void testUpdatePerson() {
         Person p = new Person();
         personDAO.updatePerson(p);
-        // Verify that the session.update method was called once
+        // Verify that the session.update method was invoked.
         verify(session, times(1)).update(p);
     }
 
     @Test
     public void testListPersons() {
+        // Prepare a list of persons to be returned by the query.
         List<Person> expectedList = Arrays.asList(new Person(), new Person());
-        // When session.createQuery is called with "from Person", return the mocked query
+        // Stub the session.createQuery method.
         when(session.createQuery("from Person")).thenReturn(query);
-        // When query.list() is called, return the expected list
+        // Stub the query.list method.
         when(query.list()).thenReturn(expectedList);
-        
+
         List<Person> actualList = personDAO.listPersons();
-        
-        assertEquals(expectedList, actualList, "The returned list of persons should match the expected list");
+        // Check that the returned list matches the expected list.
+        assertEquals(expectedList, actualList);
     }
 
     @Test
     public void testGetPersonById() {
         int personId = 1;
         Person p = new Person();
-        // Stub the session.load method
+        // Simulate the session.load behavior.
         when(session.load(Person.class, Integer.valueOf(personId))).thenReturn(p);
-        
+
         Person result = personDAO.getPersonById(personId);
-        
-        assertEquals(p, result, "The person returned should match the expected person");
+        // Compare the person loaded from the DAO with our stubbed value.
+        assertSame(p, result);
     }
 
     @Test
     public void testRemovePerson() {
-        int personId = 1;
+        int personId = 2;
         Person p = new Person();
-        // Stub the session.load method to return a person
         when(session.load(Person.class, Integer.valueOf(personId))).thenReturn(p);
-        
+
         personDAO.removePerson(personId);
-        
-        // Verify that session.delete was called
+        // Verify that the session.delete method is called with the loaded Person.
         verify(session, times(1)).delete(p);
     }
 
     @Test
     public void testRemovePersonNotFound() {
-        int personId = 2;
-        // Simulate a scenario where load returns null (in typical Hibernate use, load may throw an exception
-        // or return a proxy; adjust this based on your actual behavior)
+        int personId = 3;
+        // Simulate that session.load returns null (for testing purposes).
         when(session.load(Person.class, Integer.valueOf(personId))).thenReturn(null);
-        
+
         personDAO.removePerson(personId);
-        
-        // Verify that session.delete is never called since p is null
+        // Verify that session.delete is never called when no Person is found.
         verify(session, never()).delete(any(Person.class));
     }
 }
