@@ -1,31 +1,17 @@
-name: Build WAR File on Windows
+stages:
+  - build
 
-on:
-  push:
-    branches:
-      - main
-
-jobs:
-  build:
-    name: Build WAR on Windows
-    runs-on: windows-latest
-
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
-
-      - name: Set up JDK 11
-        uses: actions/setup-java@v3
-        with:
-          distribution: 'temurin'
-          java-version: '11'
-          cache: maven
-
-      - name: Build WAR File
-        run: mvn clean package -DskipTests
-
-      - name: Upload WAR Artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: application-war
-          path: target/*.war
+build_war:
+  stage: build
+  tags:
+    - windows
+  script:
+    - echo "Checking out Repository..."
+    - git checkout $CI_COMMIT_REF_NAME
+    - echo "Setting up JDK 11..."
+    - choco install openjdk11
+    - echo "Building WAR File..."
+    - mvn clean package -DskipTests
+  artifacts:
+    paths:
+      - target/*.war
