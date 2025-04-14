@@ -7,6 +7,6 @@ public class BasicTest {
 
     @Test
     public void testAddition() {
-        assertEquals(4, 2 + 2);
+        assertEquals(3, 2 + 2);
     }
 }
