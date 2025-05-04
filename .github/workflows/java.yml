@@ -66,3 +66,4 @@ jobs:
             -Dsonar.java.binaries=target
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          GIT_TOEKN: ${{ secrets.GIT_TOKEN }}
