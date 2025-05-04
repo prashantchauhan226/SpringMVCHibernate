@@ -54,11 +54,13 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-      - name: Build and analyze
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=springmvchibernate
-            
+      - name: SonarCloud Analysis
+        run: |
+            mvn verify sonar:sonar \
+            -Dsonar.projectKey=apringmvchibernate \
+            -Dsonar.organization=prashantchauhan226 \
+            -Dsonar.host.url=https://sonarcloud.io \
+            -Dsonar.login=${{ secrets.SONAR_TOKEN }}
             
 
       
