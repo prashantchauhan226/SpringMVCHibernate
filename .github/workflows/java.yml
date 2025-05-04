@@ -58,7 +58,7 @@ jobs:
           cache: maven
 
       - name: SonarCloud Scan
-        uses: sonarsource/sonarcloud-github-action@master
+        uses: SonarSource/sonarcloud-github-action@v2.1.0
         with:
           args: >
             -Dsonar.projectKey=SpringMVCHibernate
@@ -66,4 +66,6 @@ jobs:
             -Dsonar.java.binaries=target
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          GIT_TOEKN: ${{ secrets.GIT_TOKEN }}
+
+
+      
