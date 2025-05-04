@@ -65,4 +65,4 @@ jobs:
             -Dsonar.organization=prashantchauhan226
             -Dsonar.java.binaries=target
         env:
-          SONAR_TOKEN: ${{ SONAR_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
