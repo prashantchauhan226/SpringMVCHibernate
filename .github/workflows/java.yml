@@ -60,7 +60,7 @@ jobs:
       - name: SonarCloud Analysis
         run: |
             mvn verify sonar:sonar \
-            -Dsonar.projectKey=SpringMVCHibernate \
+            -Dsonar.projectKey=prashantchauhan226_SpringMVCHibernate \
             -Dsonar.organization=prashantchauhan226 \
             -Dsonar.host.url=https://sonarcloud.io \
             -Dsonar.login=${{ secrets.SONAR_TOKEN }}
