@@ -1,7 +1,10 @@
 name: Java CI with Maven and SonarQube
 
 on:
- workflow_dispatch:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
 
 jobs:
   build:
