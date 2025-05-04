@@ -59,7 +59,10 @@ jobs:
 
       - name: SonarCloud Analysis
         run: |
-          mvn verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=prashantchauhan226_springmvchibernate
-
+            mvn verify sonar:sonar \
+            -Dsonar.projectKey=SpringMVCHibernate \
+            -Dsonar.organization=prashantchauhan226 \
+            -Dsonar.host.url=https://sonarcloud.io \
+            -Dsonar.login=${{ secrets.SONAR_TOKEN }}
 
       
