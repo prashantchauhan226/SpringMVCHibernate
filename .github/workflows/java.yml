@@ -63,7 +63,7 @@ jobs:
         run: >
           mvn -B verify 
           org.sonarsource.scanner.maven:sonar-maven-plugin:sonar 
-          -Dsonar.projectKey=SpringMVCHibernate
+          -Dsonar.projectKey=springmvchibernate
           -Dsonar.organization=prashantchauhan226
 
       
