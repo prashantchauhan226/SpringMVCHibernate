@@ -68,8 +68,9 @@ jobs:
             ${{ runner.os }}-maven-
   
       - name: Build and SonarCloud Scan with Maven
-        run: mvn clean verify sonar:sonar \
-          -Dsonar.projectKey=prashantchauhan226_SpringMVCHibernate \
-          -Dsonar.organization=prashantchauhan226 \
-          -Dsonar.host.url=https://sonarcloud.io \
-          -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+        run: |
+          mvn clean verify sonar:sonar \
+            -Dsonar.projectKey=my-org_my-repo \
+            -Dsonar.organization=my-org \
+            -Dsonar.host.url=https://sonarcloud.io \
+            -Dsonar.login=${{ secrets.SONAR_TOKEN }}
